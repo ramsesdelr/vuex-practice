@@ -1,0 +1,23 @@
+{
+  "name": "vuex-task",
+  "version": "1.0.0",
+  "description": "Just a simple demo with Vuex integration.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "author": "Ramsés Del Rosario <ramses.r@scopicsoftware.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "laravel-mix": "^2.1.11"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  }
+}
