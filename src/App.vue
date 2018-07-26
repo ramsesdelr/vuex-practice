@@ -1,10 +1,5 @@
 <template>
-	<div>
-	<p>The route is </p> 
-<!-- 	<button @click="incrementNumber">Increment</button> -->
 	    <router-view></router-view>
-	</div>
-
 </template>
 
 <script>
