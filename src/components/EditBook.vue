@@ -1,24 +1,19 @@
 <template>
 	<div class="container">
 		<router-link :to="{path: '/' }"><a>Back</a></router-link>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Creation</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{book.title}} - <b>ISBN:</b> {{book.isbn}}</td>
-					<td>{{book.author}}</td>
-					<td>{{book.description}}</td>
-					<td>{{book.creation_date}}</td>
-				</tr>
-			</tbody>
-		</table>
+
+		<form class="form-control" v-on:submit.prevent="updateBook">
+			<label for="title"><b>Title:</b> </label> <br>
+			<input type="text" name="title" v-model="book.title" size="60"> <br>
+			<label for="author"><b>Author:</b></label> <br>
+			<input type="text" name="author" v-model="book.author"> <br>
+			<label for="isbn"><b>ISBN:</b></label> <br>
+			<input type="text" name="isbn" v-model="book.isbn"> <br>
+			<label for="title"><b>Description:</b></label> <br>
+			<textarea name="description" class="description-box" v-model="book.description"></textarea>
+			<br>
+			<button class="btn btn-primary">Update</button>
+		</form>
 	</div>
 </template>
 
@@ -32,10 +27,11 @@
 				});
 			}
 		},
-		data() {
-			return {
-				bookDetail:{
-				}
+		methods: {
+			updateBook(e){
+				if (e) e.preventDefault();
+				this.$store.commit('updateBook', this.book);
+				this.$router.push('/')
 			}
 		},
 	}

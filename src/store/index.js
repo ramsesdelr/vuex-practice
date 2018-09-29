@@ -61,12 +61,28 @@ export const store = new Vuex.Store({
     
 	    state.push({ 
             id: data.id,
-            price: data.price,
-            name: data.name,
+            title: data.title,
             description: data.description,
+            author: data.author,
+            isbn: data.isbn,
             creation_date: mm + '/' + dd + '/' + yyyy
         });
             return state;
   	},
+  	updateBook(state, data){
+  		const updatedBook = state.map((book, index) => {
+                    if (book.id === data.id) {
+                        return {
+                            ...book,
+                            title: data.title,
+                            description: data.description,
+                            author: data.author,
+                            isbn: data.isbn,
+                        };
+                    }
+                    return book;
+                });
+        return updatedBook;
+  	}
   }
 });
