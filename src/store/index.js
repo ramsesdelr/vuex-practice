@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import Vuex from'vuex';
+import Fuse from 'fuse.js';
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-  state: [
+  state: {
+  	books:   [
   		{
 	    	id: 1,
 	    	isbn: '673A45',
@@ -47,9 +50,13 @@ export const store = new Vuex.Store({
 	    	creation_date: '23-10-2001',
     	 }
     ],
+    booksResult:[
+    ],
+  },
+
   getters: {
   	getBookById: (state) => (id) => {
-    	return state.find(state => state.id === id)
+    	return state.books.find(state => state.books.id === id)
   	}
   },
   mutations : {
@@ -58,9 +65,9 @@ export const store = new Vuex.Store({
 	    var dd = today.getDate();
 	    var mm = today.getMonth()+1; //January is 0!
 	    var yyyy = today.getFullYear();
-    
-	    state.push({ 
-            id: data.id,
+
+	    state.books.push({ 
+            id: state.books.length + 1,
             title: data.title,
             description: data.description,
             author: data.author,
@@ -70,7 +77,7 @@ export const store = new Vuex.Store({
             return state;
   	},
   	updateBook(state, data){
-  		const updatedBook = state.map((book, index) => {
+  		const updatedBook = state.books.map((book, index) => {
                     if (book.id === data.id) {
                         return {
                             ...book,
@@ -83,6 +90,48 @@ export const store = new Vuex.Store({
                     return book;
                 });
         return updatedBook;
-  	}
+  	},
+    searchBooks(state, bookName) {
+        if (bookName) {
+          let options = {
+            shouldSort: true,
+            threshold: 0.6,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: [
+              "title",
+              "author",
+          ]
+          };
+        let fuse = new Fuse(state.books, options);
+        state.booksResult = fuse.search(bookName);
+        return state.booksResult;
+
+      } else {
+        state.booksResult = state.books;
+        return state.booksResult;
+      }
+    }
+  },
+  actions: {
+    addBookToStore (context, bookData) {
+      context.commit('addBook', bookData);
+    },
+    updateBookInStore(context, bookData) {
+      context.commit('updateBook', bookData)
+    },
+    searchBooksInStore(context, bookName) {
+      context.commit('searchBooks', bookName)
+    }
+    
+  },
+  getters: {
+    getCurrentBook: (state) => (id) =>{
+        return state.books.find(result => {
+          return result.id == id;
+        });
+    }
   }
 });

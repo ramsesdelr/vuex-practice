@@ -1,5 +1,10 @@
 <template>
 	<div class="container">
+		<router-link :to="{name: 'AddBook'}">
+			<button class="btn btn-primary move-right">Add Book</button>
+		</router-link>
+		<input type="text" class="form-control" v-on:keyup="searchBooks" v-model="search" name="search" placeholder="Search...">
+		<br>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -27,19 +32,35 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	import { mapActions } from 'vuex'
+
 	export default {
 		name:'BooksList',
-		computed:{
-			books(){
-				return this.$store.state;
-			}
-		},
+		computed:mapState({
+			books(state){
+				return state.booksResult;
+			},
+		}),
 		data() {
 			return {
 				title:'',
 				author:'',
 				creation_date:'',
+				search:'',
 			}
 		},
+		methods: {
+			...mapActions([
+	      		'searchBooksInStore',
+	      ]),
+			searchBooks() {
+				this.searchBooksInStore(this.search);
+			}
+		},
+		mounted() {
+			this.searchBooks();
+		}
+
 	}
 </script>

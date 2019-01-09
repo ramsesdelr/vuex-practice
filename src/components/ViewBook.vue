@@ -12,10 +12,10 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{book.title}} - <b>ISBN:</b> {{book.isbn}}</td>
-					<td>{{book.author}}</td>
-					<td>{{book.description}}</td>
-					<td>{{book.creation_date}}</td>
+					<td>{{bookDetail.title}} - <b>ISBN:</b> {{bookDetail.isbn}}</td>
+					<td>{{bookDetail.author}}</td>
+					<td>{{bookDetail.description}}</td>
+					<td>{{bookDetail.creation_date}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -23,14 +23,14 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	import { mapGetters } from 'vuex'
 	export default {
 		name:'BookView',
-		computed:{
-			book(){
-				return this.$store.state.find(result => {
-					return result.id == this.$route.params.id;
-				});
-			}
+		computed: {
+			 ...mapGetters([
+		      	'getCurrentBook',
+	   	 	])
 		},
 		data() {
 			return {
@@ -38,5 +38,8 @@
 				}
 			}
 		},
+		mounted: function() {
+			this.bookDetail = this.getCurrentBook(this.$route.params.id);
+		}
 	}
 </script>

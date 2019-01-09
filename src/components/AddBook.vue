@@ -16,11 +16,12 @@
 	</div>
 </template>
 <script>
+	import { mapActions } from 'vuex'
 	export default {
 		data() {
 			return {
 				book: {
-					id: this.$store.state.length + 1,
+					id: this.$store.state.books.length + 1,
 					title:'',
 					author:'',
 					isbn:'',
@@ -29,8 +30,11 @@
 			}
 		},
 		methods: {
-			addBook() {
-				this.$store.commit('addBook', this.book);
+		  ...mapActions([
+	      		'addBookToStore',
+	      ]),
+		  addBook() {
+				this.addBookToStore(this.book);
 				this.$router.push('/')
 			}
 		}

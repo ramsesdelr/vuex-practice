@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
 	routes:[
 	{ path:'/', component: ListBooks },
-	{ path:'/book/add', component: AddBook },
+	{ path:'/book/add', component: AddBook, name:'AddBook' },
 	{ path:'/book/:id/edit', component: EditBook, name:'EditBook' },
 	{ path:'/book/:id/view', component: ViewBook, name:'ViewBook' },
 ]});
