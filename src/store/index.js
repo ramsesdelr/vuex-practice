@@ -48,10 +48,35 @@ export const store = new Vuex.Store({
 	    	author: 'C.S. Lewis',
 	    	description: 'The 2nd chapter of the Narnia movie series',
 	    	creation_date: '23-10-2001',
-    	 }
+    	 },
+       {
+        id: 6,
+        isbn: '333A45T',
+        title: 'Book 6',
+        author: 'C.S. Lewis',
+        description: 'The 2nd chapter of the Narnia movie series',
+        creation_date: '23-10-2001',
+       },
+       {
+        id: 7,
+        isbn: '333A45T',
+        title: 'Book 7',
+        author: 'C.S. Lewis',
+        description: 'The 2nd chapter of the Narnia movie series',
+        creation_date: '23-10-2001',
+       },
+       {
+        id: 8,
+        isbn: '333A45T',
+        title: 'Book 8',
+        author: 'C.S. Lewis',
+        description: 'The 2nd chapter of the Narnia movie series',
+        creation_date: '23-10-2001',
+       },
     ],
     booksResult:[
     ],
+    perPage:3,
   },
 
   getters: {
@@ -76,7 +101,7 @@ export const store = new Vuex.Store({
         });
             return state;
   	},
-  	updateBook(state, data){
+  	updateBook(state, data) {
   		const updatedBook = state.books.map((book, index) => {
                     if (book.id === data.id) {
                         return {
@@ -110,9 +135,13 @@ export const store = new Vuex.Store({
         return state.booksResult;
 
       } else {
-        state.booksResult = state.books;
+        state.booksResult = state.books.slice(0, state.perPage);
         return state.booksResult;
       }
+    },
+    updatePage(state, pageNumber) {
+        pageNumber--;
+        return state.booksResult = state.books.slice(pageNumber * state.perPage, (pageNumber + 1) * state.perPage);
     }
   },
   actions: {
@@ -124,14 +153,19 @@ export const store = new Vuex.Store({
     },
     searchBooksInStore(context, bookName) {
       context.commit('searchBooks', bookName)
-    }
-    
+    },
+    updatePageInStore(context, selectedPage) {
+      context.commit('updatePage', selectedPage)
+    } 
   },
   getters: {
     getCurrentBook: (state) => (id) =>{
         return state.books.find(result => {
           return result.id == id;
         });
+    },
+    getPerPage: (state) => {
+      return state.perPage;
     }
   }
 });

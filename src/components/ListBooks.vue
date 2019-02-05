@@ -28,12 +28,14 @@
 				</tr>
 			</tbody>
 		</table>
+		<Pagination :booksLength="allBooks"/>
 	</div>
 </template>
 
 <script>
 	import { mapState } from 'vuex'
 	import { mapActions } from 'vuex'
+	import Pagination from './Pagination.vue'
 
 	export default {
 		name:'BooksList',
@@ -41,7 +43,13 @@
 			books(state){
 				return state.booksResult;
 			},
+			allBooks(state){
+				return state.books.length;
+			}
 		}),
+		components:{
+			Pagination
+		},
 		data() {
 			return {
 				title:'',
